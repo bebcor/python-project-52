@@ -2,9 +2,8 @@
 set -e
 
 
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.cargo/env
-export PATH="$HOME/.cargo/bin:$PATH"
+python -m pip install --upgrade pip
+pip install uv
 
 
 uv pip install -r requirements.txt
