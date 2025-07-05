@@ -13,4 +13,4 @@ migrate:
 	python manage.py migrate
 
 render-start:
-	gunicorn task_manager.wsgi
+	. venv/bin/activate && gunicorn task_manager.wsgi
