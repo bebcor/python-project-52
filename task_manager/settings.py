@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_bootstrap5',
     'home',
+    'task_manager',
 ]
 
 MIDDLEWARE = [
@@ -65,12 +66,16 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',  
 ]
 
+AUTH_USER_MODEL = 'auth.User'  
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 ROOT_URLCONF = 'task_manager.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
