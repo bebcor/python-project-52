@@ -1,13 +1,13 @@
 install:
-    uv pip install -r requirements.txt
+	uv pip install -r requirements.txt
 
 collectstatic:
-    python manage.py collectstatic --noinput
+	python manage.py collectstatic --noinput
 
 migrate:
-    python manage.py migrate
+	python manage.py migrate
 
 render-start:
-    $HOME/.local/bin/gunicorn task_manager.wsgi
+	$HOME/.local/bin/gunicorn task_manager.wsgi
 
 .PHONY: install collectstatic migrate render-start
