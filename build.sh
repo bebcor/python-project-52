@@ -6,6 +6,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source $HOME/.local/bin/activate
 
 
+echo "Installing dependencies..."
 uv pip install -r requirements.txt
 
 
@@ -21,5 +22,7 @@ ls -la $HOME/.local/bin || echo "Directory not found"
 echo "===== DIAGNOSTICS END ====="
 
 
+echo "Running collectstatic..."
 python manage.py collectstatic --noinput
+echo "Running migrations..."
 python manage.py migrate
