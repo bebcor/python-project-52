@@ -4,7 +4,7 @@ build:
 	./build.sh
 
 install:
-	uv pip install -r requirements.txt
+	$HOME/.local/bin/uv pip install -r requirements.txt
 
 collectstatic:
 	python manage.py collectstatic --noinput
@@ -13,4 +13,4 @@ migrate:
 	python manage.py migrate
 
 render-start:
-	. venv/bin/activate && gunicorn task_manager.wsgi
+	$HOME/.local/bin/gunicorn task_manager.wsgi
