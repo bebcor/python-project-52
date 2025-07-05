@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
+set -e
 
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source $HOME/.local/bin/env
+# Установка Python зависимостей через стандартный pip
+python -m pip install --upgrade pip
+pip install -r requirements.txt
 
-
-python3 -m venv venv
-source venv/bin/activate
-
-
-$HOME/.local/bin/uv pip install -r requirements.txt
-
-
+# Выполнение команд Django
 python manage.py collectstatic --noinput
 python manage.py migrate
+
+# Явная установка gunicorn
+pip install gunicorn==21.2.0
