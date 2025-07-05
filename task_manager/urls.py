@@ -17,12 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from home.views import IndexView
-from .views import (
+from home.views import (
     UserListView, UserCreateView, 
     UserUpdateView, UserDeleteView,
-    UserLoginView, UserLogoutView
+    UserLoginView, UserLogoutView,
+    IndexView
 )
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', IndexView.as_view(), name='home'),

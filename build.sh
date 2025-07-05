@@ -2,12 +2,12 @@
 set -e
 
 
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.cargo/env
+export PATH="$HOME/.cargo/bin:$PATH"
 
+
+uv pip install -r requirements.txt
 
 python manage.py collectstatic --noinput
 python manage.py migrate
-
-
-pip install gunicorn==21.2.0
