@@ -1,2 +1,5 @@
-Django==4.2.11
+django==4.2.11
 gunicorn==21.2.0
+python-dotenv
+dj-database-url
+psycopg2-binary
