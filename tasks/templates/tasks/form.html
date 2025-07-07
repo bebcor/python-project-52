@@ -1,0 +1,21 @@
+{% extends 'home/base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h1 class="h4 mb-0">
+            {% if object %}Изменение задачи{% else %}Создание задачи{% endif %}
+        </h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary">
+                {% if object %}Изменить{% else %}Создать{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'home/base.html' %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h1 class="h4 mb-0">Просмотр задачи</h1>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label class="form-label">Имя</label>
+            <p>{{ task.name }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Описание</label>
+            <p>{{ task.description }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Статус</label>
+            <p>{{ task.status }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Автор</label>
+            <p>{{ task.author }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Исполнитель</label>
+            <p>{{ task.executor|default_if_none:"" }}</p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Дата создания</label>
+            <p>{{ task.created_at|date:"d.m.Y H:i" }}</p>
+        </div>
+        <div>
+            <a href="{% url 'tasks_update' task.id %}" class="btn btn-primary">Изменить</a>
+            <a href="{% url 'tasks_delete' task.id %}" class="btn btn-danger">Удалить</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
