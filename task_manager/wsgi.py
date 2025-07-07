@@ -19,4 +19,4 @@ application = get_wsgi_application()
 
 
 if hasattr(settings, 'ROLLBAR') and settings.ROLLBAR.get('access_token'):
-    rollbar.init(**settings.ROLLBAR
+    rollbar.init(**settings.ROLLBAR)
