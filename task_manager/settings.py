@@ -107,7 +107,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILTERS_EMPTY_CHOICE_LABEL = "Все"
 
 ROLLBAR = {
-    'access_token': '330f19e97bcbe2fd1522950a49240050',
+    'access_token': 'b230f5b0d74842a9987e36bf752f231b',
     'environment': 'development' if DEBUG else 'production',
     'code_version': '1.0',
     'root': BASE_DIR,
