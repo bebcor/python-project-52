@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from home.views import IndexView, UserListView, UserCreateView, UserUpdateView, UserDeleteView, UserLoginView, UserLogoutView
-from hexlet_code import views
+from task_manager import views
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
