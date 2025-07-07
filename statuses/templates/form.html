@@ -2,10 +2,22 @@
 {% load django_bootstrap5 %}
 
 {% block content %}
-<h1>{% if object %}Изменение статуса{% else %}Создание статуса{% endif %}</h1>
-<form method="post">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-</form>
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h1 class="h4 mb-0">
+            {% if object %}Изменение статуса{% else %}Создание статуса{% endif %}
+        </h1>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-primary">
+                    {% if object %}Сохранить{% else %}Создать{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
