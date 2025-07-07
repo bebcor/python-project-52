@@ -4,7 +4,7 @@ build:
 	./build.sh
 
 render-start:
-	gunicorn hexlet_code.wsgi
+	/opt/render/project/python/Python-3.10.12/bin/gunicorn hexlet_code.wsgi
 
 collectstatic:
 	python manage.py collectstatic --noinput

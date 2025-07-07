@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "hexlet_project"
+version = "0.1.0"
+description = "Hexlet Python Project 52"
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "4.2.11"
+gunicorn = "21.2.0"
+python-dotenv = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+django-bootstrap5 = "*"
+whitenoise = "*"
+django-filter = "*"
+rollbar = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
