@@ -6,7 +6,7 @@
         <h1 class="h4 mb-0">Задачи</h1>
     </div>
     <div class="card-body">
-        <a href="{% url 'tasks_create' %}" class="btn btn-primary mb-3">
+        <a href="{% url 'tasks:create' %}" class="btn btn-primary mb-3">
             Создать задачу
         </a>
         
@@ -28,16 +28,16 @@
                     {% for task in tasks %}
                     <tr>
                         <td>{{ task.id }}</td>
-                        <td><a href="{% url 'tasks_detail' task.id %}">{{ task.name }}</a></td>
+                        <td><a href="{% url 'tasks:detail' task.id %}">{{ task.name }}</a></td>
                         <td>{{ task.status }}</td>
                         <td>{{ task.author }}</td>
                         <td>{{ task.executor|default_if_none:"" }}</td>
                         <td>{{ task.created_at|date:"d.m.Y H:i" }}</td>
                         <td>
-                            <a href="{% url 'tasks_update' task.id %}" class="btn btn-sm btn-outline-primary">
+                            <a href="{% url 'tasks:update' task.id %}" class="btn btn-sm btn-outline-primary">
                                 Изменить
                             </a>
-                            <a href="{% url 'tasks_delete' task.id %}" class="btn btn-sm btn-outline-danger">
+                            <a href="{% url 'tasks:delete' task.id %}" class="btn btn-sm btn-outline-danger">
                                 Удалить
                             </a>
                         </td>

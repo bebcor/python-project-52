@@ -31,8 +31,8 @@
             <p>{{ task.created_at|date:"d.m.Y H:i" }}</p>
         </div>
         <div>
-            <a href="{% url 'tasks_update' task.id %}" class="btn btn-primary">Изменить</a>
-            <a href="{% url 'tasks_delete' task.id %}" class="btn btn-danger">Удалить</a>
+            <a href="{% url 'tasks:update' task.id %}" class="btn btn-primary">Изменить</a>
+            <a href="{% url 'tasks:delete' task.id %}" class="btn btn-danger">Удалить</a>
         </div>
     </div>
 </div>
