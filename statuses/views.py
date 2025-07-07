@@ -12,15 +12,15 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     model = Status
     fields = ['name']
     template_name = 'statuses/form.html'
-    success_url = reverse_lazy('statuses:list')
+    success_url = reverse_lazy('statuses_list')
 
 class StatusUpdateView(LoginRequiredMixin, UpdateView):
     model = Status
     fields = ['name']
     template_name = 'statuses/form.html'
-    success_url = reverse_lazy('statuses:list')
+    success_url = reverse_lazy('statuses_list')
 
 class StatusDeleteView(LoginRequiredMixin, DeleteView):
     model = Status
     template_name = 'statuses/delete.html'
-    success_url = reverse_lazy('statuses:list')
+    success_url = reverse_lazy('statuses_list')
