@@ -4,6 +4,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 import rollbar
 
+PROJECT_NAME = "hexlet-code"
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -52,7 +54,7 @@ AUTH_USER_MODEL = 'auth.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-ROOT_URLCONF = 'task_manager.urls'
+ROOT_URLCONF = 'hexlet_code.urls'
 
 TEMPLATES = [
     {
@@ -70,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'task_manager.wsgi.application'
+WSGI_APPLICATION = 'hexlet_code.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -112,4 +114,16 @@ ROLLBAR = {
     'code_version': '1.0',
     'root': BASE_DIR,
 }
+
+if 'RENDER' in os.environ:
+    DEBUG = False
+    ALLOWED_HOSTS = [os.environ['RENDER_EXTERNAL_HOSTNAME'], 'webserver']
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+            ssl_require=True
+        )
+    }
+    ROLLBAR['environment'] = 'production'
 

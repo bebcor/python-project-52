@@ -8,15 +8,8 @@ from .forms import TaskForm
 from django.contrib import messages
 from django.shortcuts import redirect
 from django_filters.views import FilterView
-from .filters import TaskFilter
+from .filters import TaskFilter  
 
-
-def test_func(self):
-     try:
-         task = self.get_object()
-         return task.author == self.request.user
-     except Task.DoesNotExist:
-         return False
 
 
 class TaskListView(LoginRequiredMixin, ListView):
@@ -27,11 +20,16 @@ class TaskListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         queryset = Task.objects.all().order_by('-created_at')
+        
+        if self.request.GET.get('self_tasks') == 'on':
+            queryset = queryset.filter(author=self.request.user)
+        
         self.filterset = TaskFilter(
             self.request.GET, 
             queryset=queryset,
             request=self.request
         )
+        
         return self.filterset.qs
     
     def get_context_data(self, **kwargs):
@@ -48,7 +46,8 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        return response
 
 class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
@@ -56,6 +55,8 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
     success_message = 'Задача успешно изменена'
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     model = Task

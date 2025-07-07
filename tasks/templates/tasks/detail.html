@@ -7,15 +7,15 @@
     <div class="card">
         <div class="card-body">
             <p><strong>Автор:</strong> {{ task.author }}</p>
-            <p><strong>Исполнитель:</strong> {{ task.executor }}</p>
+            <p><strong>Исполнитель:</strong> 
+                {% if task.executor %}{{ task.executor }}{% else %}Не назначен{% endif %}</p>
             <p><strong>Статус:</strong> {{ task.status }}</p>
-            <!-- Добавляем отображение меток -->
             <p><strong>Метки:</strong></p>
             <ul>
                 {% for label in task.labels.all %}
-                <li>{{ label.name }}</li>
+                    <li>{{ label.name }}</li>
                 {% empty %}
-                <li>Нет меток</li>
+                    <li>Нет меток</li>
                 {% endfor %}
             </ul>
             <p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>

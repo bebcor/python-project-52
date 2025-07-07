@@ -4,7 +4,7 @@ build:
 	./build.sh
 
 render-start:
-	gunicorn task_manager.wsgi
+	gunicorn hexlet_code.wsgi
 
 collectstatic:
 	python manage.py collectstatic --noinput

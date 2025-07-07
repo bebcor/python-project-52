@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="card shadow-sm">
-    <div class="card-header bg-primary text-white">
+    <div class="card-header bg-light text-dark">
         <h1 class="h4 mb-0">Пользователи</h1>
     </div>
     <div class="card-body">
@@ -29,11 +29,11 @@
                         <td>{{ user.username }}</td>
                         <td>{{ user.first_name }} {{ user.last_name }}</td>
                         <td>{{ user.date_joined|date:"d.m.Y H:i" }}</td>
-                        <td>
-                            <a href="{% url 'user_update' user.id %}" class="btn btn-sm btn-outline-primary">
+                        <td>    
+                            <a href="{% url 'user_update' user.id %}" class="btn btn-sm btn-outline-primary {% if user != request.user %}disabled{% endif %}">
                                 Изменить
                             </a>
-                            <a href="{% url 'user_delete' user.id %}" class="btn btn-sm btn-outline-danger">
+                            <a href="{% url 'user_delete' user.id %}" class="btn btn-sm btn-outline-danger {% if user != request.user %}disabled{% endif %}">
                                 Удалить
                             </a>
                         </td>

@@ -4,7 +4,9 @@ from .models import Task
 from statuses.models import Status
 from django.contrib.auth import get_user_model
 from labels.models import Label
+import logging
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 class TaskFilter(django_filters.FilterSet):
@@ -24,7 +26,15 @@ class TaskFilter(django_filters.FilterSet):
         queryset=Label.objects.all(),
         label='Метка',
         empty_label='Любая метка',
-        widget=forms.Select(attrs={'class': 'form-select'})
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        field_name='labels__id',
+        method='filter_labels'
+    )
+    self_tasks = django_filters.BooleanFilter(
+        method='filter_self_tasks',
+        label='Только мои задачи',
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        required=False
     )
 
     class Meta:
@@ -34,4 +44,17 @@ class TaskFilter(django_filters.FilterSet):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
         super().__init__(*args, **kwargs)
+        logger.info(f"Фильтр инициализирован. Request: {self.request}, User: {self.request.user if self.request else 'None'}")
 
+    def filter_labels(self, queryset, name, value):
+        logger.info(f"Фильтр меток: value={value}")
+        if value:
+            return queryset.filter(labels=value)
+        return queryset
+
+    def filter_self_tasks(self, queryset, name, value):
+        logger.info(f"Фильтр 'Только мои задачи': value={value}, request={self.request}, user={self.request.user if self.request else 'None'}")
+        if value and self.request and self.request.user.is_authenticated:
+            logger.info(f"Применяю фильтр для пользователя: {self.request.user}")
+            return queryset.filter(author=self.request.user)
+        return queryset
