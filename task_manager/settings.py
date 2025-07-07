@@ -112,5 +112,4 @@ ROLLBAR = {
     'code_version': '1.0',
     'root': BASE_DIR,
 }
-if ROLLBAR['access_token']:
-    rollbar.init(**ROLLBAR)
+
