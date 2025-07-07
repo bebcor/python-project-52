@@ -36,15 +36,6 @@ INSTALLED_APPS = [
     'django_filters',
 ]
 
-ROLLBAR = {
-    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
-    'environment': os.getenv('ROLLBAR_ENVIRONMENT', 'production'),
-    'root': BASE_DIR,
-    'enabled': True,
-    'handle_exceptions': True,
-    'handle_git_errors': 'none',
-}
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +45,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware'  , 
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddlewareExcluding404  , 
 ]
 
 AUTH_USER_MODEL = 'auth.User'
@@ -114,4 +105,16 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILTERS_EMPTY_CHOICE_LABEL = "Все"
-rollbar.init(**ROLLBAR)
+
+ROLLBAR = {
+    'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
+    'environment': os.getenv('ROLLBAR_ENVIRONMENT', 'production'),
+    'root': BASE_DIR,
+    'enabled': True,
+    'exception_level_filters': [
+        (Http404, 'ignored'),
+    ],
+    'patch_debugview': False,
+}
+if ROLLBAR['access_token']:
+    rollbar.init(**ROLLBAR)
