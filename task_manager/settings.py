@@ -106,7 +106,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILTERS_EMPTY_CHOICE_LABEL = "Все"
 
-ROLLBAR = {330f19e97bcbe2fd1522950a49240050
+ROLLBAR = {
     'access_token': '330f19e97bcbe2fd1522950a49240050',
     'environment': 'development' if DEBUG else 'production',
     'code_version': '1.0',
