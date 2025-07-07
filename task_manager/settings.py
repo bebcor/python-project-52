@@ -44,7 +44,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware'  , 
 ]
+
+ROLLBAR = {
+    'access_token': 'b230f5b0d74842a9987e36bf752f231b',
+    'environment': 'development' if DEBUG else 'production',
+    'code_version': '1.0',
+    'root': BASE_DIR,
+}
 
 AUTH_USER_MODEL = 'auth.User'
 LOGIN_REDIRECT_URL = '/'
@@ -103,3 +111,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILTERS_EMPTY_CHOICE_LABEL = "Все"
+rollbar.init(**ROLLBAR)

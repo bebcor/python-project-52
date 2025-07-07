@@ -6,3 +6,4 @@ psycopg2-binary
 django-bootstrap5
 whitenoise
 django-filter
+rollbar
