@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.urls import path, include
 from home.views import IndexView, UserListView, UserCreateView, UserUpdateView, UserDeleteView, UserLoginView, UserLogoutView
+from . import views
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -28,6 +29,7 @@ urlpatterns = [
     path('statuses/', include('statuses.urls')),
     path('tasks/', include('tasks.urls', namespace='tasks')),
     path('labels/', include('labels.urls')), 
+    path('test-rollbar/', views.test_rollbar, name='test-rollbar'),
 ]
 
 
