@@ -111,4 +111,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 FILTERS_EMPTY_CHOICE_LABEL = "Все"
-rollbar.init(**ROLLBAR)
