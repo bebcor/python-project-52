@@ -7,6 +7,8 @@ from .models import Task
 from .forms import TaskForm
 from django.contrib import messages
 from django.shortcuts import redirect
+from django_filters.views import FilterView
+from .filters import TaskFilter
 
 
 def test_func(self):
@@ -19,15 +21,30 @@ def test_func(self):
 
 class TaskListView(LoginRequiredMixin, ListView):
     model = Task
-    template_name = 'tasks/list.html'
     context_object_name = 'tasks'
+    template_name = 'tasks/list.html'
+    paginate_by = 10
+    
+    def get_queryset(self):
+        queryset = Task.objects.all().order_by('-created_at')
+        self.filterset = TaskFilter(
+            self.request.GET, 
+            queryset=queryset,
+            request=self.request
+        )
+        return self.filterset.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.filterset
+        return context
 
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
-    success_message = _('Задача успешно создана')
+    success_message = 'Задача успешно создана'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -38,7 +55,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = 'tasks/form.html'
     success_url = reverse_lazy('tasks:list')
-    success_message = _('Задача успешно изменена')
+    success_message = 'Задача успешно изменена'
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
     model = Task
