@@ -1,3 +1,4 @@
 [pytest]
 pythonpath = .
 DJANGO_SETTINGS_MODULE = task_manager.settings
+addopts = --ds=task_manager.settings

@@ -6,9 +6,10 @@ source $HOME/.local/bin/env
 
 uv pip install -r requirements.txt --python /opt/render/project/python/Python-3.10.12/bin/python3.10
 
+ln -s /project /project/code 
 
-export PYTHONPATH=/opt/render/project/python/Python-3.10.12/bin/python3.10:$PYTHONPATH
 export PYTHONPATH=$(pwd):$PYTHONPATH
+export DJANGO_SETTINGS_MODULE=task_manager.settings
 
 /opt/render/project/python/Python-3.10.12/bin/python3.10 manage.py migrate
 /opt/render/project/python/Python-3.10.12/bin/python3.10 manage.py collectstatic --noinput
