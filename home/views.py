@@ -9,12 +9,12 @@ from django.contrib.auth.models import User
 
 class UserListView(ListView):
     model = User
-    template_name = 'home/list.html'
+    template_name = 'list.html'
     context_object_name = 'users'
 
 class UserCreateView(SuccessMessageMixin, CreateView):
     model = User
-    template_name = 'home/form.html'
+    template_name = 'form.html'
     fields = ['username', 'first_name', 'last_name', 'password']
     success_url = reverse_lazy('login')
     success_message = "Пользователь успешно зарегистрирован"
@@ -27,7 +27,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
-    template_name = 'home/form.html'
+    template_name = 'form.html'
     fields = ['first_name', 'last_name', 'username']
     success_url = reverse_lazy('users_list')
     success_message = "Пользователь успешно изменён"
@@ -42,7 +42,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
-    template_name = 'home/delete.html'
+    template_name = 'delete.html'
     success_url = reverse_lazy('users_list')
     login_url = reverse_lazy('login')
 
@@ -54,10 +54,10 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         return super().post(request, *args, **kwargs)
 
 class UserLoginView(LoginView):
-    template_name = 'home/login.html'
+    template_name = 'login.html'
 
 class UserLogoutView(LogoutView):
     next_page = '/'
 
 class IndexView(TemplateView):
-    template_name = 'home/index.html'
+    template_name = 'index.html'
