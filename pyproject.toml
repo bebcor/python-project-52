@@ -22,3 +22,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 packages = ["task_manager", "home", "statuses", "tasks", "labels"]
+
+[tool.setuptools.packages.find]
+where = ["task_manager"]
+include = ["task_manager*"]
