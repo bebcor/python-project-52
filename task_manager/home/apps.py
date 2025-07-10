@@ -5,5 +5,4 @@ class HomeConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'task_manager.home'
         
-    def ready(self):
-        import home.signals
+
