@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.urls import path, include
 from task_manager.home.views import IndexView, UserListView, UserCreateView, UserUpdateView, UserDeleteView, UserLoginView, UserLogoutView
-from task_manager import views
+from .views import RollbarTestView 
+
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -29,7 +30,7 @@ urlpatterns = [
     path('statuses/', include('task_manager.statuses.urls')),
     path('tasks/', include('task_manager.tasks.urls', namespace='tasks')),
     path('labels/', include('task_manager.labels.urls')), 
-    path('test-rollbar/', views.test_rollbar, name='test-rollbar'),
+    path('test-rollbar/', RollbarTestView.as_view(), name='test-rollbar'),
 ]
 
 

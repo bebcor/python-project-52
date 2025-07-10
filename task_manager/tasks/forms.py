@@ -19,7 +19,7 @@ class TaskForm(forms.ModelForm):
         widget=forms.Select(attrs={'class': 'form-control'})
     )
     labels = forms.ModelMultipleChoiceField(
-        queryset=Label.objects.all(),
+        queryset=Label.objects.none(),
         required=False,
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         label='Метки'
@@ -32,3 +32,7 @@ class TaskForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['labels'].queryset = Label.objects.all() 

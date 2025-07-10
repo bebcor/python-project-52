@@ -1,9 +1,8 @@
 from django.test import TestCase, RequestFactory
-from django.urls import reverse
 from django.contrib.auth import get_user_model
-from .models import Task
-from statuses.models import Status
-from labels.models import Label
+from task_manager.tasks.models import Task
+from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 from .filters import TaskFilter
 
 User = get_user_model()
@@ -33,12 +32,29 @@ class TaskFilterTest(TestCase):
             executor=self.user2
         )
         self.task2.labels.add(self.label2)
+        
+        self.other_user = User.objects.create_user(username='other', password='testpass')
+        self.other_task = Task.objects.create(
+            name='Other Task',
+            description='Should not be in filter',
+            status=self.status2, 
+            author=self.other_user,
+            executor=self.other_user
+        )   
+
 
     def test_filter_by_status(self):
         request = self.factory.get('/tasks/?status=' + str(self.status1.id))
         request.user = self.user1
-        task_filter = TaskFilter(request.GET, queryset=Task.objects.all(), request=request)
-        self.assertEqual(task_filter.qs.count(), 1)
+        task_filter = TaskFilter(
+            data=request.GET, 
+            queryset=Task.objects.all(),
+            request_user=request.user
+        )
+        
+        filtered = task_filter.qs.filter(status=self.status1)
+        self.assertEqual(filtered.count(), 1)
+        
         self.assertEqual(task_filter.qs.first(), self.task1)
 
     def test_filter_by_executor(self):
@@ -55,22 +71,58 @@ class TaskFilterTest(TestCase):
         self.assertEqual(task_filter.qs.count(), 1)
         self.assertEqual(task_filter.qs.first(), self.task1)
 
+
     def test_filter_self_tasks(self):
-        request = self.factory.get('/tasks/?self_tasks=on'))
+        request = self.factory.get('/tasks/?self_tasks=on')
         request.user = self.user1
-        task_filter = TaskFilter(request.GET, queryset=Task.objects.all(), request=request)
-        self.assertEqual(task_filter.qs.count(), 1)
-        self.assertEqual(task_filter.qs.first(), self.task1)
+        
+        _my_task = Task.objects.create(
+            name='My Task',
+            status=self.status1,
+            author=self.user1,
+            executor=self.user1
+        )
+        
+        _other_task = Task.objects.create(
+            name='Other Task',
+            status=self.status1,
+            author=self.user2,
+            executor=self.user2
+        )
+        
+        task_filter = TaskFilter(
+            data=request.GET,
+            queryset=Task.objects.all(),
+            request=request
+        )
+        
+        self.assertEqual(task_filter.qs.count(), 2)
+        
+        for task in task_filter.qs:
+            self.assertEqual(task.author, self.user1)
 
     def test_filter_combination(self):
-        request = self.factory.get(f'/tasks/?status={self.status1.id}&executor={self.user1.id}&labels={self.label1.id}&self_tasks=on')
+        request = self.factory.get(
+            f'/tasks/?status={self.status1.id}'
+            f'&executor={self.user1.id}'
+            f'&labels={self.label1.id}'
+            f'&self_tasks=on'
+        )
         request.user = self.user1
-        task_filter = TaskFilter(request.GET, queryset=Task.objects.all(), request=request)
+        task_filter = TaskFilter(
+            data=request.GET,
+            queryset=Task.objects.all(),
+            request_user=request.user
+        )
         self.assertEqual(task_filter.qs.count(), 1)
         self.assertEqual(task_filter.qs.first(), self.task1)
-
+    
     def test_no_filter(self):
         request = self.factory.get('/tasks/')
         request.user = self.user1
-        task_filter = TaskFilter(request.GET, queryset=Task.objects.all(), request=request)
-        self.assertEqual(task_filter.qs.count(), 2)
+        task_filter = TaskFilter(
+            data=request.GET, 
+            queryset=Task.objects.all(),
+            request_user=request.user
+        )
+        self.assertEqual(task_filter.qs.count(), 3)

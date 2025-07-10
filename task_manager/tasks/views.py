@@ -7,7 +7,6 @@ from .models import Task
 from .forms import TaskForm
 from django.contrib import messages
 from django.shortcuts import redirect
-from django_filters.views import FilterView
 from .filters import TaskFilter  
 
 

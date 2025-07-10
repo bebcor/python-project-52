@@ -1,6 +1,6 @@
 import django_filters
 from django import forms
-from .models import Task
+from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
 from django.contrib.auth import get_user_model
 from task_manager.labels.models import Label
@@ -42,9 +42,8 @@ class TaskFilter(django_filters.FilterSet):
         fields = ['status', 'executor', 'labels']
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
+        self.request_user = kwargs.pop('request_user', None)
         super().__init__(*args, **kwargs)
-        logger.info(f"Фильтр инициализирован. Request: {self.request}, User: {self.request.user if self.request else 'None'}")
 
     def filter_labels(self, queryset, name, value):
         logger.info(f"Фильтр меток: value={value}")

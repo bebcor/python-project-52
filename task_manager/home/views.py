@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -6,6 +5,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.shortcuts import redirect
+
 
 class UserListView(ListView):
     model = User
@@ -36,9 +38,16 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_object(self, queryset=None):
         obj = super().get_object(queryset=queryset)
         if obj != self.request.user:
-            from django.http import HttpResponseForbidden
-            return HttpResponseForbidden("У вас нет прав для редактирования этого пользователя")
+            return None
         return obj
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.object:
+            messages.error(request, 'У вас нет прав для изменения другого пользователя')
+            return redirect(self.success_url)
+        return super().get(request, *args, **kwargs)
+
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
@@ -51,6 +60,8 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         if user.authored_tasks.exists() or user.assigned_tasks.exists():
             messages.error(request, 'Невозможно удалить пользователя, связанного с задачами')
             return redirect('users_list')
+
+        messages.success(request, 'Пользователь успешно удален')
         return super().post(request, *args, **kwargs)
 
 class UserLoginView(LoginView):
