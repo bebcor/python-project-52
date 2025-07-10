@@ -12,6 +12,14 @@ class UserTests(TestCase):
         cls.user1 = User.objects.create_user(username='user1', password='testpass123')
         cls.user2 = User.objects.create_user(username='user2', password='testpass456')
         cls.user_with_task = User.objects.create_user(username='task_user', password='taskpass')
+        
+        cls.status = Status.objects.create(name='Test Status')
+        cls.task = Task.objects.create(
+            name='Test Task', 
+            description='Task description',
+            status=cls.status,
+            author=cls.user_with_task
+        )
 
     def test_user_update_permission(self):
         self.client.login(username='user1', password='testpass123')
