@@ -49,24 +49,17 @@ class UserTests(TestCase):
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Cannot delete user associated with tasks')
     
-    def test_user_delete_without_tasks(self):
-        self.client.login(username='user1', password='testpass123')
-        response = self.client.post(
-            reverse('user_delete', kwargs={'pk': self.user1.pk}),
-            follow=True
-        )
-        
-        messages = list(response.context['messages'])
-        self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), 'User deleted successfully')
-        self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
+def test_user_delete_without_tasks(self):
+    self.client.login(username='user1', password='testpass123')
+    response = self.client.post(
+        reverse('user_delete', kwargs={'pk': self.user1.pk}),
+        follow=True
+    )
     
-    def test_user_delete_without_tasks(self):
-        self.client.login(username='user1', password='testpass123')
-        response = self.client.post(
-            reverse('user_delete', kwargs={'pk': self.user1.pk}),
-            follow=True
-        )
-        
-        self.assertContains(response, 'User deleted successfully')
-        self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
+    messages = list(response.context['messages'])
+    self.assertEqual(len(messages), 1)
+    self.assertEqual(str(messages[0]), 'User deleted successfully')
+    
+    self.assertContains(response, 'User deleted successfully')
+    
+    self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
