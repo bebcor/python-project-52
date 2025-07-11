@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status 
+from django.contrib.messages import get_messages
 
 User = get_user_model()
 
@@ -14,12 +15,14 @@ class UserTests(TestCase):
         cls.user_with_task = User.objects.create_user(username='task_user', password='taskpass')
         
         cls.status = Status.objects.create(name='Test Status')
+
         cls.task = Task.objects.create(
             name='Test Task', 
             description='Task description',
             status=cls.status,
             author=cls.user_with_task
         )
+
 
     def test_user_update_permission(self):
         self.client.login(username='user1', password='testpass123')
@@ -30,18 +33,11 @@ class UserTests(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('users_list'))
         
-        messages = list(response.wsgi_request._messages)
+        messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
-        self.assertIn('У вас нет прав', messages[0].message)
+        self.assertEqual(str(messages[0]), 'You cannot edit another user')
 
     def test_user_delete_with_tasks(self):
-        Task.objects.create(
-            name='Test Task', 
-            description='Task description',
-            status=Status.objects.create(name="Test Status"),
-            author=self.user_with_task
-        )
-        
         self.client.login(username='task_user', password='taskpass')
         
         response = self.client.post(
@@ -49,8 +45,10 @@ class UserTests(TestCase):
             follow=True
         )
         
-        self.assertContains(response, 'Невозможно удалить пользователя')
-
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Cannot delete user associated with tasks')
+    
     def test_user_delete_without_tasks(self):
         self.client.login(username='user1', password='testpass123')
         response = self.client.post(
@@ -58,5 +56,17 @@ class UserTests(TestCase):
             follow=True
         )
         
-        self.assertContains(response, 'Пользователь успешно удален')
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'User deleted successfully')
+        self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
+    
+    def test_user_delete_without_tasks(self):
+        self.client.login(username='user1', password='testpass123')
+        response = self.client.post(
+            reverse('user_delete', kwargs={'pk': self.user1.pk}),
+            follow=True
+        )
+        
+        self.assertContains(response, 'User deleted successfully')
         self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())

@@ -13,6 +13,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-default-key-for-dev')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = [
+    '0.0.0.0',
     'webserver',
     'localhost',
     '127.0.0.1',
@@ -30,7 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_bootstrap5',
-    'task_manager.home',
+    'task_manager.users',
     'task_manager.statuses',
     'task_manager.labels',
     'task_manager.tasks',

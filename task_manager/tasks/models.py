@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth import get_user_model
 from task_manager.statuses.models import Status
 from task_manager.labels.models import Label 
@@ -34,6 +35,11 @@ class Task(models.Model):
         blank=True, 
         related_name='tasks',
         verbose_name='Метка'    
+    )
+    created_at = models.DateTimeField(
+        default=timezone.now,
+        verbose_name="Дата создания"
+
     )
 
     class Meta:
