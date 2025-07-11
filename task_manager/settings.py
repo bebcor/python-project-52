@@ -60,7 +60,7 @@ ROOT_URLCONF = 'task_manager.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'users', 'templates'),],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,6 +72,7 @@ TEMPLATES = [
         },
     },
 ]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 WSGI_APPLICATION = 'task_manager.wsgi.application'
 
@@ -88,6 +89,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 3,  
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
