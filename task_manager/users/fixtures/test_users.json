@@ -1,6 +1,6 @@
 [
     {
-      "model": "auth.user",
+      "model": "users.User",
       "pk": 1,
       "fields": {
         "first_name": "John",
@@ -10,7 +10,7 @@
       }
     },
     {
-      "model": "auth.user",
+      "model": "users.User",
       "pk": 2,
       "fields": {
         "first_name": "Daenerys",
@@ -20,7 +20,7 @@
       }
     }
     {
-    "model": "auth.user",
+    "model": "users.User",
     "pk": 3,
     "fields": {
       "first_name": "Tyrion",
