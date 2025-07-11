@@ -26,6 +26,7 @@ def create_initial_users(apps, schema_editor):
         first_name='Bob',
         last_name='Johnson'
     )
+
 class Migration(migrations.Migration):
     initial = True
 
@@ -60,4 +61,5 @@ class Migration(migrations.Migration):
                 ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
+        migrations.RunPython(create_initial_users),
     ]
