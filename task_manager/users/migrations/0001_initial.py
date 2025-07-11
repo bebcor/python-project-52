@@ -10,19 +10,19 @@ def create_initial_users(apps, schema_editor):
     
     User.objects.create_user(
         username='user1',
-        password='pass1',
+        password='password1',
         first_name='John',
         last_name='Doe'
     )
     User.objects.create_user(
         username='user2',
-        password='pass2',
+        password='password2',
         first_name='Jane',
         last_name='Smith'
     )
     User.objects.create_user(
         username='user3',
-        password='pass3',
+        password='password3',
         first_name='Bob',
         last_name='Johnson'
     )
