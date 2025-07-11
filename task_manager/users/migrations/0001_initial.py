@@ -5,14 +5,34 @@ import django.contrib.auth.validators
 from django.db import migrations, models
 import django.utils.timezone
 
-
+def create_initial_users(apps, schema_editor):
+    User = apps.get_model('users', 'User')
+    
+    User.objects.create_user(
+        username='user1',
+        password='pass1',
+        first_name='John',
+        last_name='Doe'
+    )
+    User.objects.create_user(
+        username='user2',
+        password='pass2',
+        first_name='Jane',
+        last_name='Smith'
+    )
+    User.objects.create_user(
+        username='user3',
+        password='pass3',
+        first_name='Bob',
+        last_name='Johnson'
+    )
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
     ]
+
 
     operations = [
         migrations.CreateModel(
