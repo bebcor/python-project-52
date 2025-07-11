@@ -18,7 +18,7 @@
         "username": "daenerys_t",
         "password": "Dracarys123"
       }
-    }
+    },
     {
     "model": "users.User",
     "pk": 3,
