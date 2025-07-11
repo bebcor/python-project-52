@@ -1,6 +1,6 @@
 [
     {
-      "model": "users.user",
+      "model": "auth.user",
       "pk": 1,
       "fields": {
         "first_name": "John",
@@ -10,7 +10,7 @@
       }
     },
     {
-      "model": "users.user",
+      "model": "auth.user",
       "pk": 2,
       "fields": {
         "first_name": "Daenerys",
@@ -19,4 +19,16 @@
         "password": "Dracarys123"
       }
     }
+    {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "first_name": "Tyrion",
+      "last_name": "Lannister",
+      "username": "tyrion_l",
+      "password": "Wine123"
+    }
+  }
   ]
+
+
