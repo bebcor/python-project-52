@@ -8,24 +8,33 @@ import django.utils.timezone
 def create_initial_users(apps, schema_editor):
     User = apps.get_model('users', 'User')
     
-    User.objects.create_user(
-        username='user1',
-        password='123',
-        first_name='John',
-        last_name='Doe'
-    )
-    User.objects.create_user(
-        username='user2',
-        password='321',
-        first_name='Jane',
-        last_name='Smith'
-    )
-    User.objects.create_user(
-        username='user3',
-        password='213',
-        first_name='Bob',
-        last_name='Johnson'
-    )
+    test_users = [
+        {
+            'username': 'john_snow',
+            'password': 'Stark123',
+            'first_name': 'John',
+            'last_name': 'Snow'
+        },
+        {
+            'username': 'daenerys_t', 
+            'password': 'Dracarys123',
+            'first_name': 'Daenerys',
+            'last_name': 'Targaryen'
+        },
+        {
+            'username': 'tyrion_l',
+            'password': 'Wine123', 
+            'first_name': 'Tyrion',
+            'last_name': 'Lannister'
+        }
+    ]
+    
+    for user_data in test_users:
+        User.objects.create_user(**user_data)
+
+def reverse_create_initial_users(apps, schema_editor):
+    User = apps.get_model('users', 'User')
+    User.objects.all().delete()
 
 class Migration(migrations.Migration):
     initial = True
@@ -33,7 +42,6 @@ class Migration(migrations.Migration):
     dependencies = [
         ('auth', '0012_alter_user_first_name_max_length'),
     ]
-
 
     operations = [
         migrations.CreateModel(
@@ -61,5 +69,5 @@ class Migration(migrations.Migration):
                 ('objects', django.contrib.auth.models.UserManager()),
             ],
         ),
-        migrations.RunPython(create_initial_users),
+        migrations.RunPython(create_initial_users, reverse_create_initial_users),
     ]
