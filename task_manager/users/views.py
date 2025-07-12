@@ -8,6 +8,8 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 
 User = get_user_model()
 
@@ -20,18 +22,12 @@ class UserListView(ListView):
     context_object_name = 'users'
     ordering = ['id']
 
+
 class UserCreateView(SuccessMessageMixin, CreateView):
-    model = User
+    form_class = CustomUserCreationForm  # Используйте кастомную форму
     template_name = 'users/registration_form.html'
-    fields = ['username', 'first_name', 'last_name', 'password']
     success_url = reverse_lazy('login')
     success_message = _("User registered successfully")
-
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password'])
-        user.save()
-        return super().form_valid(form)
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
