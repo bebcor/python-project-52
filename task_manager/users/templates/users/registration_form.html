@@ -11,7 +11,32 @@
     <div class="card-body">
         <form method="post" id="registration-form">
             {% csrf_token %}
-            {% bootstrap_form form %}
+            
+            <div class="mb-3">
+                <label for="id_first_name" class="form-label">Имя</label>
+                {{ form.first_name }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_last_name" class="form-label">Фамилия</label>
+                {{ form.last_name }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_username" class="form-label">Имя пользователя</label>
+                {{ form.username }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password1" class="form-label">Пароль</label>
+                {{ form.password1 }}
+            </div>
+            
+            <div class="mb-3">
+                <label for="id_password2" class="form-label">Подтверждение пароля</label>
+                {{ form.password2 }}
+            </div>
+            
             <button type="submit" class="btn btn-primary" id="register-button">
                 {% if object %}Сохранить{% else %}Зарегистрироваться{% endif %}
             </button>
