@@ -69,8 +69,12 @@ class UserLoginView(LoginView):
     template_name = 'users/login.html'
     redirect_authenticated_user = True
     
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, _('Вы залогинены'))
+        return response
+    
     def get_success_url(self):
-        """Возвращает URL для перенаправления после успешного входа."""
         return reverse_lazy('index')
 
 class UserLogoutView(LogoutView):
