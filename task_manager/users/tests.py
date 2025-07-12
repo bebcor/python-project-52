@@ -1,15 +1,40 @@
-from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from task_manager.tasks.models import Task
-from task_manager.statuses.models import Status 
 from django.contrib.messages import get_messages
+from django.test import TestCase
+from task_manager.tasks.models import Task
+from task_manager.statuses.models import Status
 
 User = get_user_model()
 
-class UserTests(UserTestCase):
+class UserTests(TestCase):
     @classmethod
+    def setUpTestData(cls):
+        cls.user1 = User.objects.create_user(
+            username='user1',
+            password='testpass123'
+        )
+        cls.user2 = User.objects.create_user(
+            username='user2',
+            password='testpass123'
+        )
+        cls.user_with_task = User.objects.create_user( 
+            username='task_user',
+            password='taskpass'
+        )
+        
+        cls.status = Status.objects.create(name="Test Status")
+        
+        cls.task = Task.objects.create(
+            name="Test Task",
+            description="Test Description",
+            status=cls.status,
+            author=cls.user_with_task,
+            executor=cls.user1
+        )
 
+    def setUp(self):
+        self.client.logout()
 
     def test_user_update_permission(self):
         self.client.login(username='user1', password='testpass123')
