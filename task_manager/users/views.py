@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CustomUserUpdateForm
 
 User = get_user_model()
 
@@ -29,10 +29,11 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy('login')
     success_message = _("Пользователь успешно зарегистрирован")
 
+
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
+    form_class = CustomUserUpdateForm  
     template_name = 'users/registration_form.html'
-    fields = ['first_name', 'last_name', 'username']
     success_url = reverse_lazy('users_list')
     success_message = _("Пользователь успешно изменен")
     login_url = reverse_lazy('login')
