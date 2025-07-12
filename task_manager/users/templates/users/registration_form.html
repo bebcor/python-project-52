@@ -62,6 +62,10 @@
             </div>
             {% endif %}
             
+            {% if object %}
+            <input type="hidden" id="id_password1">
+            {% endif %}
+            
             <button type="submit" class="btn btn-primary" id="register-button">
                 {% if object %}Сохранить{% else %}Зарегистрировать{% endif %}
             </button>
