@@ -24,17 +24,17 @@ class UserListView(ListView):
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
-    form_class = CustomUserCreationForm  # Используйте кастомную форму
+    form_class = CustomUserCreationForm 
     template_name = 'users/registration_form.html'
     success_url = reverse_lazy('login')
-    success_message = _("User registered successfully")
+    success_message = _("Пользователь успешно зарегистрирован")
 
 class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = User
     template_name = 'users/registration_form.html'
     fields = ['first_name', 'last_name', 'username']
     success_url = reverse_lazy('users_list')
-    success_message = _("User updated successfully")
+    success_message = _("Пользователь успешно изменен")
     login_url = reverse_lazy('login')
 
     def get_object(self, queryset=None):
@@ -46,7 +46,7 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if not self.object:
-            messages.error(request, _('You cannot edit another user'))
+            messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
             return redirect(self.success_url)
         return super().get(request, *args, **kwargs)
 
@@ -59,10 +59,10 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         user = self.get_object()
         if user.authored_tasks.exists() or user.assigned_tasks.exists():
-            messages.error(request, _('Cannot delete user associated with tasks'))
+            messages.error(request, _('Невозможно удалить пользователя, потому что он связан с задачей'))
             return redirect('users_list')
 
-        messages.success(request, _('User deleted successfully'))
+        messages.success(request, _('Пользователь успешно удален'))
         return super().post(request, *args, **kwargs)
 
 class UserLoginView(LoginView):
