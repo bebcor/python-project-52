@@ -79,3 +79,8 @@ class UserLoginView(LoginView):
 
 class UserLogoutView(LogoutView):
     next_page = '/'
+    
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        messages.success(request, _('Вы разлогинены'))
+        return response
