@@ -36,10 +36,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'users_list' %}" id="users-link">Пользователи</a>
                         </li>
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'statuses_list' %}" id="statuses-link">Статусы</a>
                         </li>
