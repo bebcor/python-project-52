@@ -67,6 +67,11 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
+    redirect_authenticated_user = True
+    
+    def get_success_url(self):
+        """Возвращает URL для перенаправления после успешного входа."""
+        return reverse_lazy('index')
 
 class UserLogoutView(LogoutView):
     next_page = '/'
