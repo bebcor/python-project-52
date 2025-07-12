@@ -14,28 +14,53 @@
             
             <div class="mb-3">
                 <label for="id_first_name" class="form-label">Имя</label>
-                {{ form.first_name }}
+                <input type="text" name="first_name" class="form-control" id="id_first_name"
+                       placeholder="{% if not object %}{{ form.first_name.field.widget.attrs.placeholder }}{% endif %}"
+                       value="{{ form.first_name.value|default_if_none:'' }}">
+                {% if form.first_name.errors %}
+                    <div class="text-danger">{{ form.first_name.errors }}</div>
+                {% endif %}
             </div>
             
             <div class="mb-3">
                 <label for="id_last_name" class="form-label">Фамилия</label>
-                {{ form.last_name }}
+                <input type="text" name="last_name" class="form-control" id="id_last_name"
+                       placeholder="{% if not object %}{{ form.last_name.field.widget.attrs.placeholder }}{% endif %}"
+                       value="{{ form.last_name.value|default_if_none:'' }}">
+                {% if form.last_name.errors %}
+                    <div class="text-danger">{{ form.last_name.errors }}</div>
+                {% endif %}
             </div>
             
             <div class="mb-3">
                 <label for="id_username" class="form-label">Имя пользователя</label>
-                {{ form.username }}
+                <input type="text" name="username" class="form-control" id="id_username"
+                       placeholder="{% if not object %}{{ form.username.field.widget.attrs.placeholder }}{% endif %}"
+                       value="{{ form.username.value|default_if_none:'' }}">
+                {% if form.username.errors %}
+                    <div class="text-danger">{{ form.username.errors }}</div>
+                {% endif %}
             </div>
             
+            {% if not object %}
             <div class="mb-3">
                 <label for="id_password1" class="form-label">Пароль</label>
-                {{ form.password1 }}
+                <input type="password" name="password1" class="form-control" id="id_password1"
+                       placeholder="{{ form.password1.field.widget.attrs.placeholder }}">
+                {% if form.password1.errors %}
+                    <div class="text-danger">{{ form.password1.errors }}</div>
+                {% endif %}
             </div>
             
             <div class="mb-3">
                 <label for="id_password2" class="form-label">Подтверждение пароля</label>
-                {{ form.password2 }}
+                <input type="password" name="password2" class="form-control" id="id_password2"
+                       placeholder="{{ form.password2.field.widget.attrs.placeholder }}">
+                {% if form.password2.errors %}
+                    <div class="text-danger">{{ form.password2.errors }}</div>
+                {% endif %}
             </div>
+            {% endif %}
             
             <button type="submit" class="btn btn-primary" id="register-button">
                 {% if object %}Сохранить{% else %}Зарегистрироваться{% endif %}
