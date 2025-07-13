@@ -17,14 +17,11 @@ class TaskForm(forms.ModelForm):
         queryset=User.objects.all(),
         required=False,
         label='Исполнитель',
-        widget=forms.Select(attrs={
-            'class': 'form-control',
-            'id': 'id_executor'
-        }),
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'id_executor'}),
         empty_label='Не назначен'
     )
     labels = forms.ModelMultipleChoiceField(
-        queryset=Label.objects.none(),
+        queryset=Label.objects.all(),
         required=False,
         widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
         label='Метки'
@@ -39,13 +36,11 @@ class TaskForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-    self.user = kwargs.pop('user', None)
-    super().__init__(*args, **kwargs)
-    
-
-    self.fields['executor'].queryset = User.objects.all()
-    self.fields['labels'].queryset = Label.objects.all()
-    
-    if self.instance.pk is None:
-        self.instance.author = self.user
-
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        
+        self.fields['executor'].queryset = User.objects.all()
+        self.fields['labels'].queryset = Label.objects.all()
+        
+        if self.instance.pk is None:
+            self.instance.author = self.user
