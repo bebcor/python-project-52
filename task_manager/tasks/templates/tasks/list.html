@@ -8,26 +8,31 @@
     <div class="card mb-4">
         <div class="card-body">
             <form method="get" class="row g-3">
+                <!-- Статус -->
                 <div class="col-md-3">
-                    <label class="form-label">Статус</label>
+                    <label for="id_status" class="form-label">Статус</label>
                     {{ filter.form.status }}
                 </div>
+                
                 <div class="col-md-3">
-                    <label class="form-label">Исполнитель</label>
+                    <label for="id_executor" class="form-label">Исполнитель</label>
                     {{ filter.form.executor }}
                 </div>
+                
                 <div class="col-md-3">
-                    <label class="form-label">Метка</label>
+                    <label for="id_labels" class="form-label">Метка</label>
                     {{ filter.form.labels }}
                 </div>
+                
                 <div class="col-md-3">
                     <div class="form-check" style="margin-top: 30px;">
                         {{ filter.form.self_tasks }}
-                        <label class="form-check-label" for="{{ filter.form.self_tasks.id_for_label }}">
+                        <label for="{{ filter.form.self_tasks.id_for_label }}" class="form-check-label">
                             Только свои задачи
                         </label>
                     </div>
                 </div>
+                
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary me-2">Показать</button>
                     <a href="{% url 'tasks:list' %}" class="btn btn-outline-secondary">Сбросить фильтр</a>
