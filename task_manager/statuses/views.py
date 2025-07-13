@@ -5,6 +5,9 @@ from .models import Status
 from django.db.models import ProtectedError
 from django.contrib import messages
 from django.shortcuts import redirect
+from .models import Status
+from django.utils.translation import gettext as _
+
 
 class StatusesListView(LoginRequiredMixin, ListView):
     model = Status
@@ -12,7 +15,7 @@ class StatusesListView(LoginRequiredMixin, ListView):
     context_object_name = 'statuses'
 
 class StatusCreateView(LoginRequiredMixin, CreateView):
-    model = TaskStatus
+    model = Status
     fields = ['name']
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('statuses_list')
