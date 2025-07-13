@@ -6,9 +6,13 @@
     <p>{{ task.description }}</p>
     <div class="card">
         <div class="card-body">
-            <p><strong>Автор:</strong> {{ task.author }}</p>
+            <p><strong>Автор:</strong> {{ task.author.get_full_name }}</p>
             <p><strong>Исполнитель:</strong> 
-                {% if task.executor %}{{ task.executor }}{% else %}Не назначен{% endif %}</p>
+                {% if task.executor %}
+                    {{ task.executor.get_full_name }}
+                {% else %}
+                    Не назначен
+                {% endif %}</p>
             <p><strong>Статус:</strong> {{ task.status }}</p>
             <p><strong>Метки:</strong></p>
             <ul>
