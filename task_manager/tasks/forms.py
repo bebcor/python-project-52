@@ -17,7 +17,7 @@ class TaskForm(forms.ModelForm):
         queryset=User.objects.all(),
         required=False,
         label='Исполнитель',
-        widget=forms.Select(attrs={'class': 'form-control', 'id': 'id_executor'}),
+        widget=forms.Select(attrs={'class': 'form-control', 'id': 'id_executor_form'}),
         empty_label='Не назначен'
     )
     labels = forms.ModelMultipleChoiceField(
