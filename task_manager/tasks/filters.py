@@ -22,17 +22,17 @@ class TaskFilter(django_filters.FilterSet):
     empty_label='Любой исполнитель',
     widget=forms.Select(attrs={
         'class': 'form-select',
-        'id': 'executor-filter'})
+        'id': 'id_executor_filter'})
+    )
+    labels = django_filters.ModelChoiceFilter(
+    queryset=Label.objects.all(),
+    label='Метка',
+    empty_label='Любая метка',
+    widget=forms.Select(attrs={'class': 'form-select'}),
+    field_name='labels',
+    method='filter_labels'
     )
 
-    labels = django_filters.ModelChoiceFilter(
-        queryset=Label.objects.all(),
-        label='Метка',
-        empty_label='Любая метка',
-        widget=forms.Select(attrs={'class': 'form-select'}),
-        field_name='labels__id',
-        method='filter_labels'
-    )
     self_tasks = django_filters.BooleanFilter(
         method='filter_self_tasks',
         label='Только мои задачи',
