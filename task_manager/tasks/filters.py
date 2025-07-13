@@ -17,11 +17,14 @@ class TaskFilter(django_filters.FilterSet):
         widget=forms.Select(attrs={'class': 'form-select'})
     )
     executor = django_filters.ModelChoiceFilter(
-        queryset=User.objects.all(),
-        label='Исполнитель',
-        empty_label='Любой исполнитель',
-        widget=forms.Select(attrs={'class': 'form-select'})
-    )
+    queryset=User.objects.all(),
+    label='Исполнитель',
+    empty_label='Любой исполнитель',
+    widget=forms.Select(attrs={
+        'class': 'form-select',
+        'id': 'executor-filter'
+    })
+
     labels = django_filters.ModelChoiceFilter(
         queryset=Label.objects.all(),
         label='Метка',
