@@ -22,8 +22,8 @@ class TaskFilter(django_filters.FilterSet):
     empty_label='Любой исполнитель',
     widget=forms.Select(attrs={
         'class': 'form-select',
-        'id': 'executor-filter'
-    })
+        'id': 'executor-filter'})
+    )
 
     labels = django_filters.ModelChoiceFilter(
         queryset=Label.objects.all(),
