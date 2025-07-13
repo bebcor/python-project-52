@@ -10,14 +10,14 @@ class TaskForm(forms.ModelForm):
     status = forms.ModelChoiceField(
         queryset=Status.objects.all(),
         label='Статус',
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control'}),
         empty_label='Выберите статус'
     )
     executor = forms.ModelChoiceField(
         queryset=User.objects.none(),
         required=False,
         label='Исполнитель',
-        widget=forms.Select(attrs={'class': 'form-control'})
+        widget=forms.Select(attrs={'class': 'form-control'}),
         empty_label='Не назначен'
     )
     labels = forms.ModelMultipleChoiceField(
