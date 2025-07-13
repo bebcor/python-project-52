@@ -12,10 +12,15 @@ class StatusesListView(LoginRequiredMixin, ListView):
     context_object_name = 'statuses'
 
 class StatusCreateView(LoginRequiredMixin, CreateView):
-    model = Status
+    model = TaskStatus
     fields = ['name']
     template_name = 'statuses/form.html'
     success_url = reverse_lazy('statuses_list')
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, _('Статус успешно создан'))
+        return response
 
 class StatusUpdateView(LoginRequiredMixin, UpdateView):
     model = Status

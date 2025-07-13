@@ -6,6 +6,14 @@
         <h1 class="h4 mb-0">Статусы</h1>
     </div>
     <div class="card-body">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
         <a href="{% url 'status_create' %}" class="btn btn-primary mb-3">
             Создать статус
         </a>
