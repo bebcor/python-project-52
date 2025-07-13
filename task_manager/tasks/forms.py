@@ -44,3 +44,6 @@ class TaskForm(forms.ModelForm):
         
         if self.instance.pk is None:
             self.instance.author = self.user
+
+
+        self.fields['executor'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
