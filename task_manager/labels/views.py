@@ -27,6 +27,7 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('labels:list')
     success_message = 'Метка успешно изменена'
 
+
 class LabelDeleteView(LoginRequiredMixin, DeleteView):
     model = Label
     template_name = 'labels/delete.html'
@@ -34,15 +35,8 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     
     def post(self, request, *args, **kwargs):
         try:
-            self.object = self.get_object()
-            name = self.object.name
-            
             response = super().post(request, *args, **kwargs)
-            
-            messages.success(
-                request,
-                f'Метка "{name}" успешно удалена'
-            )
+            messages.success(request, 'Метка успешно удалена')
             return response
         except ProtectedError:
             messages.error(
