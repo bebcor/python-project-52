@@ -14,10 +14,13 @@ class TaskForm(forms.ModelForm):
         empty_label='Выберите статус'
     )
     executor = forms.ModelChoiceField(
-        queryset=User.objects.none(),
+        queryset=User.objects.all(),
         required=False,
         label='Исполнитель',
-        widget=forms.Select(attrs={'class': 'form-control'}),
+        widget=forms.Select(attrs={
+            'class': 'form-control',
+            'id': 'id_executor'
+        }),
         empty_label='Не назначен'
     )
     labels = forms.ModelMultipleChoiceField(
@@ -35,13 +38,14 @@ class TaskForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
-
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
-        super().__init__(*args, **kwargs)
-        
-        self.fields['executor'].queryset = User.objects.all()
-        self.fields['labels'].queryset = Label.objects.all()
-        
-        if self.instance.pk is None:
-            self.instance.author = self.user
+    self.user = kwargs.pop('user', None)
+    super().__init__(*args, **kwargs)
+    
+
+    self.fields['executor'].queryset = User.objects.all()
+    self.fields['labels'].queryset = Label.objects.all()
+    
+    if self.instance.pk is None:
+        self.instance.author = self.user
+
