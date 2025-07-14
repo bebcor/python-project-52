@@ -45,8 +45,10 @@ class TaskFilter(django_filters.FilterSet):
         fields = ['status', 'executor', 'labels']
 
     def __init__(self, *args, **kwargs):
-        self.request_user = kwargs.pop('request_user', None)
-        super().__init__(*args, **kwargs)
+    self.request_user = kwargs.pop('request_user', None)
+    super().__init__(*args, **kwargs)
+    
+    self.filters['executor'].field.label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
 
     def filter_labels(self, queryset, name, value):
         logger.info(f"Фильтр меток: value={value}")
