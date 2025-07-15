@@ -5,7 +5,6 @@ from .models import Status
 from django.db.models import ProtectedError
 from django.contrib import messages
 from django.shortcuts import redirect
-from .models import Status
 from django.utils.translation import gettext as _
 
 
@@ -45,7 +44,6 @@ class StatusDeleteView(LoginRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         try:
             self.object = self.get_object()
-            name = self.object.name
             result = super().post(request, *args, **kwargs)
             messages.success(request, _('Статус успешно удален'))
             return result

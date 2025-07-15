@@ -8,9 +8,8 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.forms import UserCreationForm
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
