@@ -44,10 +44,10 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
         return context
     
     def get(self, request, *args, **kwargs):
-        label = self.get_object()
+        label = self.get_object() 
         
         if label.tasks.exists():
-            return self.render_to_response(self.get_context_data())
+            return self.render_to_response(self.get_context_data(object=label))
         
         return super().get(request, *args, **kwargs)
     

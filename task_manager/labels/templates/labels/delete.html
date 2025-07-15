@@ -3,10 +3,21 @@
 {% block content %}
 <div class="container mt-4">
     <h1>Удаление метки</h1>
+    
+    {% if error_message %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    
     <p>Вы уверены, что хотите удалить метку {{ object.name }}?</p>
+    
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Да, удалить</button>
+        <button type="submit" class="btn btn-danger" {% if not error_message %}{% endif %}>
+            Да, удалить
+        </button>
+        <a href="{% url 'labels:list' %}" class="btn btn-secondary">Отмена</a>
     </form>
 </div>
 {% endblock %}
