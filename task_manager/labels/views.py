@@ -28,19 +28,34 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = 'Метка успешно изменена'
 
 
+
 class LabelDeleteView(LoginRequiredMixin, DeleteView):
     model = Label
     template_name = 'labels/delete.html'
     success_url = reverse_lazy('labels:list')
     
-    def post(self, request, *args, **kwargs):
-        try:
-            response = super().post(request, *args, **kwargs)
-            messages.success(request, 'Метка успешно удалена')
-            return response
-        except ProtectedError:
+    def get(self, request, *args, **kwargs):
+        label = self.get_object()
+        
+        if label.tasks.exists():
             messages.error(
-                request, 
-                'Невозможно удалить метку, так как она связана с задачами'
+                request,
+                'Невозможно удалить метку, потому что она используется'
             )
             return redirect('labels:list')
+        
+        return super().get(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        label = self.get_object()
+        
+        if label.tasks.exists():
+            messages.error(
+                request, 
+                'Невозможно удалить метку, потому что она используется'
+            )
+            return redirect('labels:list')
+        
+        response = super().post(request, *args, **kwargs)
+        messages.success(request, 'Метка успешно удалена')
+        return response
