@@ -34,15 +34,20 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'labels/delete.html'
     success_url = reverse_lazy('labels:list')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        label = self.get_object()
+        
+        if label.tasks.exists():
+            context['error_message'] = 'Невозможно удалить метку, потому что она используется'
+        
+        return context
+    
     def get(self, request, *args, **kwargs):
         label = self.get_object()
         
         if label.tasks.exists():
-            messages.error(
-                request,
-                'Невозможно удалить метку, потому что она используется'
-            )
-            return redirect('labels:list')
+            return self.render_to_response(self.get_context_data())
         
         return super().get(request, *args, **kwargs)
     
