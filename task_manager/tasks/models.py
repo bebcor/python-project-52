@@ -1,11 +1,12 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth import get_user_model
-from task_manager.statuses.models import Status
-from task_manager.labels.models import Label 
 
+from task_manager.labels.models import Label
+from task_manager.statuses.models import Status
 
 User = get_user_model()
+
 
 class Task(models.Model):
     name = models.CharField(max_length=255, verbose_name='Имя')
@@ -48,9 +49,13 @@ class Task(models.Model):
     def __str__(self):
         return self.name
 
+
 class TaskLabel(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     label = models.ForeignKey('labels.Label', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
 
 

@@ -1,22 +1,30 @@
-from django.test import TestCase, RequestFactory
 from django.contrib.auth import get_user_model
-from task_manager.tasks.models import Task
-from task_manager.statuses.models import Status
+from django.test import RequestFactory, TestCase
+
 from task_manager.labels.models import Label
+from task_manager.statuses.models import Status
+from task_manager.tasks.models import Task
+
 from .filters import TaskFilter
 
-
 User = get_user_model()
+
 
 class TaskFilterTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.factory = RequestFactory()
         
-        cls.user1 = User.objects.create_user(username='user1', password='testpass')
-        cls.user2 = User.objects.create_user(username='user2', password='testpass')
-        cls.other_user = User.objects.create_user(username='other', password='testpass')
-        
+        cls.user1 = User.objects.create_user(
+            username='user1', password='testpass'
+        )
+        cls.user2 = User.objects.create_user(
+            username='user2', password='testpass'
+        )
+        cls.other_user = User.objects.create_user(
+            username='other', password='testpass'
+        )
+
         cls.status1 = Status.objects.create(name='Новый')
         cls.status2 = Status.objects.create(name='В работе')
         
@@ -47,7 +55,6 @@ class TaskFilterTest(TestCase):
             executor=cls.other_user
         )
 
-
     def test_filter_by_status(self):
         request = self.factory.get('/tasks/?status=' + str(self.status1.id))
         request.user = self.user1
@@ -65,17 +72,24 @@ class TaskFilterTest(TestCase):
     def test_filter_by_executor(self):
         request = self.factory.get('/tasks/?executor=' + str(self.user1.id))
         request.user = self.user1
-        task_filter = TaskFilter(request.GET, queryset=Task.objects.all(), request=request)
+        task_filter = TaskFilter(
+            request.GET,
+            queryset=Task.objects.all(),
+            request=request
+        )
         self.assertEqual(task_filter.qs.count(), 1)
         self.assertEqual(task_filter.qs.first(), self.task1)
 
     def test_filter_by_label(self):
         request = self.factory.get('/tasks/?labels=' + str(self.label1.id))
         request.user = self.user1
-        task_filter = TaskFilter(request.GET, queryset=Task.objects.all(), request=request)
+        task_filter = TaskFilter(
+            request.GET,
+            queryset=Task.objects.all(),
+            request=request
+        )
         self.assertEqual(task_filter.qs.count(), 1)
         self.assertEqual(task_filter.qs.first(), self.task1)
-
 
     def test_filter_self_tasks(self):
         request = self.factory.get('/tasks/?self_tasks=on')

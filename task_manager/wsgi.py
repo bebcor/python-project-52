@@ -8,10 +8,10 @@ https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
 """
 
 import os
-import rollbar 
-from django.core.wsgi import get_wsgi_application
-from django.conf import settings
 
+import rollbar
+from django.conf import settings
+from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_manager.settings')
 

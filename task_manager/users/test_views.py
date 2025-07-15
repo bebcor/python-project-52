@@ -1,11 +1,13 @@
-from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.messages import get_messages
 from django.test import TestCase
-from task_manager.tasks.models import Task
+from django.urls import reverse
+
 from task_manager.statuses.models import Status
+from task_manager.tasks.models import Task
 
 User = get_user_model()
+
 
 class UserTests(TestCase):
     @classmethod
@@ -18,7 +20,7 @@ class UserTests(TestCase):
             username='user2',
             password='testpass123'
         )
-        cls.user_with_task = User.objects.create_user( 
+        cls.user_with_task = User.objects.create_user(
             username='task_user',
             password='taskpass'
         )
@@ -59,8 +61,12 @@ class UserTests(TestCase):
         
         messages = list(response.context['messages'])
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), 'Cannot delete user associated with tasks')
+        self.assertEqual(
+            str(messages[0]),
+            'Cannot delete user associated with tasks'
+        )
     
+
 def test_user_delete_without_tasks(self):
     self.client.login(username='user1', password='testpass123')
     response = self.client.post(

@@ -1,10 +1,13 @@
 from django import forms
-from .models import Task
-from task_manager.statuses.models import Status
 from django.contrib.auth import get_user_model
-from task_manager.labels.models import Label 
+
+from task_manager.labels.models import Label
+from task_manager.statuses.models import Status
+
+from .models import Task
 
 User = get_user_model()
+
 
 class TaskForm(forms.ModelForm):
     status = forms.ModelChoiceField(
@@ -32,7 +35,9 @@ class TaskForm(forms.ModelForm):
         fields = ['name', 'description', 'status', 'executor', 'labels']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'description': forms.Textarea(
+                attrs={'class': 'form-control', 'rows': 3}
+            ),
         }
 
     def __init__(self, *args, **kwargs):
@@ -45,5 +50,5 @@ class TaskForm(forms.ModelForm):
         if self.instance.pk is None:
             self.instance.author = self.user
 
-
-        self.fields['executor'].label_from_instance = lambda obj: f"{obj.first_name} {obj.last_name}"
+        self.fields['executor'].label_from_instance = \
+            lambda obj: f"{obj.first_name} {obj.last_name}"

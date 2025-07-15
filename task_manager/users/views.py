@@ -1,20 +1,27 @@
-from django.views.generic import TemplateView
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
+
 from .forms import CustomUserCreationForm, CustomUserUpdateForm
-from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
+
 class IndexView(TemplateView):
     template_name = 'users/index.html'
+
 
 class UserListView(ListView):
     model = User
@@ -47,9 +54,11 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         if not self.object:
-            messages.error(request, _('У вас нет прав для изменения другого пользователя.'))
+            messages.error(request, _('У вас нет прав для изменения'
+                                            'другого пользователя.'))
             return redirect(self.success_url)
         return super().get(request, *args, **kwargs)
+
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
@@ -66,14 +75,16 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         if user != request.user:
             messages.error(
                 request,
-                _('У вас нет прав для изменения другого пользователя')
+                _('У вас нет прав для изменения'
+                         'другого пользователя')
             )
             return redirect('users_list')
         
         if user.authored_tasks.exists() or user.assigned_tasks.exists():
             messages.error(
                 request,
-                _('Невозможно удалить пользователя, потому что он связан с задачей')
+                _('Невозможно удалить пользователя, '
+                    'потому что он связан с задачей')
             )
             return redirect('users_list')
         
@@ -92,13 +103,15 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         if user.authored_tasks.exists() or user.assigned_tasks.exists():
             messages.error(
                 request,
-                _('Невозможно удалить пользователя, потому что он связан с задачей')
+                _('Невозможно удалить пользователя, '
+                    'потому что он связан с задачей')
             )
             return redirect('users_list')
         
         response = super().post(request, *args, **kwargs)
         messages.success(request, _('Пользователь успешно удален'))
         return response
+
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'
@@ -111,6 +124,7 @@ class UserLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('index')
+
 
 class UserLogoutView(LogoutView):
     next_page = '/'
