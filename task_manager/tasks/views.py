@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
     CreateView,
     DeleteView,
+    DetailView,
     ListView,
     UpdateView,
 )
