@@ -34,9 +34,13 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'labels/delete.html'
     success_url = reverse_lazy('labels:list')
     
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.object = self.get_object()
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        label = self.get_object()
+        label = self.object
         
         if label.tasks.exists():
             context['error_message'] = 'Невозможно удалить метку, потому что она используется'
@@ -44,23 +48,26 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
         return context
     
     def get(self, request, *args, **kwargs):
-        label = self.get_object() 
-        
-        if label.tasks.exists():
-            return self.render_to_response(self.get_context_data(object=label))
+        if self.object.tasks.exists():
+            return self.render_to_response(self.get_context_data())
         
         return super().get(request, *args, **kwargs)
     
     def post(self, request, *args, **kwargs):
-        label = self.get_object()
-        
-        if label.tasks.exists():
+        if self.object.tasks.exists():
             messages.error(
                 request, 
                 'Невозможно удалить метку, потому что она используется'
             )
             return redirect('labels:list')
         
-        response = super().post(request, *args, **kwargs)
-        messages.success(request, 'Метка успешно удалена')
-        return response
+        try:
+            response = super().post(request, *args, **kwargs)
+            messages.success(request, 'Метка успешно удалена')
+            return response
+        except ProtectedError:
+            messages.error(
+                request, 
+                'Невозможно удалить метку, потому что она используется'
+            )
+            return redirect('labels:list')

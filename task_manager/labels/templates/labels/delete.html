@@ -10,11 +10,11 @@
         </div>
     {% endif %}
     
-    <p>Вы уверены, что хотите удалить метку {{ object.name }}?</p>
+    <p>Вы уверены, что хотите удалить метку <strong>{{ object.name }}</strong>?</p>
     
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger" {% if not error_message %}{% endif %}>
+        <button type="submit" class="btn btn-danger">
             Да, удалить
         </button>
         <a href="{% url 'labels:list' %}" class="btn btn-secondary">Отмена</a>
