@@ -57,14 +57,21 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('users_list')
     login_url = reverse_lazy('login')
 
+    def get_object(self, queryset=None):
+        return self.request.user
+
     def post(self, request, *args, **kwargs):
         user = self.get_object()
         if user.authored_tasks.exists() or user.assigned_tasks.exists():
-            messages.error(request, _('Невозможно удалить пользователя, потому что он связан с задачей'))
+            messages.error(
+                request,
+                _('Невозможно удалить пользователя, потому что он связан с задачей')
+            )
             return redirect('users_list')
-
+        
+        response = super().post(request, *args, **kwargs)
         messages.success(request, _('Пользователь успешно удален'))
-        return super().post(request, *args, **kwargs)
+        return response
 
 class UserLoginView(LoginView):
     template_name = 'users/login.html'

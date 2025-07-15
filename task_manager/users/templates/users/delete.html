@@ -1,5 +1,17 @@
-<form method="post">
-    {% csrf_token %}
-    <p>Вы уверены, что хотите удалить {{ object.username }}?</p>
-    <input type="submit" value="Да, удалить">
-  </form>
+{% extends 'users/base.html' %}
+
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-header bg-light text-dark">
+        <h2 class="h4 mb-0">Удаление пользователя</h2>
+    </div>
+    <div class="card-body">
+        <p>Вы уверены, что хотите удалить пользователя <strong>{{ object.username }}</strong>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Да, удалить</button>
+            <a href="{% url 'users_list' %}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
