@@ -58,8 +58,23 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('users_list')
     login_url = reverse_lazy('login')
 
-    def get_object(self, queryset=None):
-        return get_object_or_404(User, pk=self.kwargs['pk'])
+    def get(self, request, *args, **kwargs):
+        user = self.get_object()
+        
+        if user != request.user:
+            messages.error(
+                request,
+                _('У вас нет прав для удаления другого пользователя')
+            )
+            return redirect('users_list')
+        
+        if user.authored_tasks.exists() or user.assigned_tasks.exists():
+            messages.error(
+                request,
+            )
+            return redirect('users_list')
+        
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         user = self.get_object()
