@@ -49,7 +49,7 @@ class UserTests(TestCase):
         
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), 'You cannot edit another user')
+        self.assertEqual(str(messages[0]), 'У вас нет прав для изменения другого пользователя.')
 
     def test_user_delete_with_tasks(self):
         self.client.login(username='task_user', password='taskpass')
@@ -63,7 +63,7 @@ class UserTests(TestCase):
         self.assertEqual(len(messages), 1)
         self.assertEqual(
             str(messages[0]),
-            'Cannot delete user associated with tasks'
+            'Невозможно удалить пользователя, потому что он связан с задачей'
         )
     
 
@@ -76,8 +76,8 @@ def test_user_delete_without_tasks(self):
     
     messages = list(response.context['messages'])
     self.assertEqual(len(messages), 1)
-    self.assertEqual(str(messages[0]), 'User deleted successfully')
+    self.assertEqual(str(messages[0]), 'Пользователь успешно удален')
     
-    self.assertContains(response, 'User deleted successfully')
+    self.assertContains(response, 'Пользователь успешно удален')
     
     self.assertFalse(User.objects.filter(pk=self.user1.pk).exists())
