@@ -10,5 +10,5 @@ Task Manager is an application designed to task tracking.
 |:--------------:|:-------:|
 |     Python     | ^3.13.0 |
 |     Django     |  ^5.2   |
-
+|     gunicorn   | ^23.0.0 |
 
