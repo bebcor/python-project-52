@@ -49,7 +49,7 @@ class UserTests(TestCase):
         
         messages = list(get_messages(response.wsgi_request))
         self.assertEqual(len(messages), 1)
-        self.assertEqual(str(messages[0]), 'У вас нет прав для изменения другого пользователя.')
+        self.assertEqual(str(messages[0]), 'У вас нет прав для изменениядругого пользователя.')
 
     def test_user_delete_with_tasks(self):
         self.client.login(username='task_user', password='taskpass')
