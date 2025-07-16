@@ -33,12 +33,3 @@ jobs:
         run: |
           make testcov
 
-      - name: SonarQubeScan
-        uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=AlishaEvergreen_python-project-52
-            -Dsonar.organization=alishaevergreen
-            -Dsonar.python.coverage.reportPaths=coverage.xml
