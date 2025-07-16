@@ -39,7 +39,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=AlishaEvergreen_python-project-52
-            -Dsonar.organization=alishaevergreen
+            -Dsonar.projectKey=bebcor_python-project-52
+            -Dsonar.organization=bebcor
             -Dsonar.python.coverage.reportPaths=coverage.xml
 
