@@ -4,6 +4,7 @@
 [![Python CI](https://github.com/bebcor/python-project-52/actions/workflows/pyci.yml/badge.svg)](https://github.com/bebcor/python-project-52/actions/workflows/pyci.yml)
 
 Project: Task Manager
+
 Task Manager is an application designed to task tracking.
 
 ### Requirements
