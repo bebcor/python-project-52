@@ -14,7 +14,7 @@
 |     gunicorn   | ^23.0.0 |
 
 
-### ⏳ Installation  & Launching
+### 🔄 Installation  & Launching
 1. Clone the repo:
 ```bash
 git clone https://github.com/bebcor/python-project-52.git
