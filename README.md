@@ -1,4 +1,4 @@
-### 📒 Task Manager
+## 📒 Task Manager
 [![Actions Status](https://github.com/bebcor/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/bebcor/python-project-52/actions)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bebcor_python-project-52&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bebcor_python-project-52)
 [![Python CI](https://github.com/bebcor/python-project-52/actions/workflows/pyci.yml/badge.svg)](https://github.com/bebcor/python-project-52/actions/workflows/pyci.yml)
