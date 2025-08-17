@@ -6,7 +6,7 @@
 
 **Task Manager** is a production-ready web application for task management with user authentication, status tracking, and label organization. Built with Django following modern development practices.
 
-### Requirements
+### 💻 Requirements
 |     Tools      | Version |
 |:--------------:|:-------:|
 |     Python     | ^3.13.0 |
@@ -14,7 +14,7 @@
 |     gunicorn   | ^23.0.0 |
 
 
-### Installation  & Launching
+### ⏳ Installation  & Launching
 1. Clone the repo:
 ```bash
 git clone https://github.com/bebcor/python-project-52.git
